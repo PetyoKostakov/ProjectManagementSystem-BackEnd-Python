@@ -24,7 +24,6 @@ SECRET_KEY = '885jyqiq2^^_%75!y2@*t+%hj2oo$!ocns7ducku#e_&e9#ih('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -37,6 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'projectManagementSystem',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -47,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware'
 )
 
 ROOT_URLCONF = 'projectManagementSystem.urls'
@@ -98,5 +99,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static/app/"),
+    os.path.join(BASE_DIR, "static/"),
+)
 
 STATIC_URL = '/static/'
+
+#disable CSRF issue
+
+
+from rest_framework.authentication import SessionAuthentication
+
+class SessionCsrfExemptAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening

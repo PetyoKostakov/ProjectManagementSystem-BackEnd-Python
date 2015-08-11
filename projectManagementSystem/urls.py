@@ -15,9 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import HelloWorldView
+from .views import HelloWorldView#, TaskList, TaskDetail
+from .views import TaskList, TaskDetail
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', HelloWorldView.as_view(), name='home'), # r'^$' expression that matches home url
     url(r'^admin/', include(admin.site.urls)),
-]
+    url(r'^api/tasks/$', TaskList.as_view(), name='task_list'),
+    url(r'^api/tasks/(?P<pk>[0-9]+)$', TaskDetail.as_view(), name='task_detail'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
